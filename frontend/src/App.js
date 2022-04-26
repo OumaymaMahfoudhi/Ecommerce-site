@@ -1,57 +1,46 @@
 import React from "react";
-import data from './data';
+import {BrowserRouter, Route , Switch } from "react-router-dom";
+import HomeScreen from "./screens/HomeScreen";
+import ProductScreen from "./screens/ProductScreen";
+import AddProduct from "./screens/AddProduct";
+import {useState} from 'react';
+
 function App() {
-  return ( <div className="grid-container">
-  <header className="row">
-      <div>
-          <a className="brand"    href="/">amazona</a>
-      </div>
-      <div>
-          <a href="/cart">Cart</a>
-          <a href="/signin">Sign In</a>
-      </div>
+  const [user,setLoginUser] = useState({
 
-  </header>
-  <main>
-      <div className="row center" >
-        {
-          data.products.map(product =>
-          <div key={product._id} className="card">
-    
-          <a href={`/product/${product._id}`}>
-            <img className="medium" 
-            src={product.image} 
-            alt={product.name}/>
-          </a>
-          <div className="card-body">
-          <a href={`/product/${product._id}`}>
-                  <h2>{product.name}</h2>
-              </a>
-              <div className="rating">
-                  <span> <i className="fa fa-star" ></i> </span>
-                  <span><i className="fa fa-star" ></i></span>
-                  <span><i className="fa fa-star" ></i> </span>
-                  <span><i className="fa fa-star" ></i></span>
-                  <span><i className="fa fa-star" ></i></span>
-              </div>
-              <div className="price" >${product.price}</div>
+  })
+  return (
+    <BrowserRouter>
+      <div className="grid-container">
+        <header className="row">
+          <div>
+            <a className="brand" href="/">
+              startup Mall
+            </a>
           </div>
+          <div>
+            <a href="/cart">Cart</a>
+            <a href="/signin">Sign In</a>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                window.location.href = "/add";
+              }}
+            >
+              Ajouter Produit{" "}
+            </button>
+          </div>
+        </header>
+        <main>
+          <Route path="/product/:id" component={ProductScreen}></Route>
+          <Route path="/" component={HomeScreen} exact></Route>
+          <Route path="/add" component={AddProduct} exact></Route>
+        </main>
+        <footer className="row center"> All rights reserved</footer>
       </div>
-     
-   
-      
-  
-     )
-        }
-          
-      </div>
-
-  </main>
-  <footer className="row center"> All rights reserved</footer>
-</div>
-
-  
-   );
+    </BrowserRouter>
+  );
 }
 
 export default App;
